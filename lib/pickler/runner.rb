@@ -322,6 +322,7 @@ existing features.
 
       process do |*args|
         args.replace(pickler.scenario_features) if args.empty?
+        puts "Pulling #{args.count} features...\n"
         args.each do |arg|
           pickler.feature(arg).pull
         end
