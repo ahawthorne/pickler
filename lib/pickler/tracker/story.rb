@@ -140,11 +140,11 @@ class Pickler
         attributes["estimate"] = value.nil? ? -1 : value
       end
 
-      def suggested_basename(user_override = nil)
+      def suggested_basename(user_override = nil, max_length = 120)
         if user_override.to_s !~ /\A-?\z/
           user_override
         else
-          name.to_s.empty? ? id.to_s : name.gsub(/[^\w-]+/,'_').downcase
+          name.to_s.empty? ? id.to_s : name.gsub(/[^\w-]+/,'_').downcase[0..max_length]
         end
       end
 
