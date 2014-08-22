@@ -74,6 +74,10 @@ class Pickler
       def startable?
         %w(unscheduled unstarted rejected).include?(current_state)
       end
+      
+      def pending?
+        %w(unscheduled unstarted).include?(current_state)
+      end
 
       def tracker
         project.tracker
@@ -93,7 +97,8 @@ class Pickler
       def header(format = :tag)
         case format
         when :tag
-          "@#{url || "#{project.use_https? ? 'https' : 'http'}://www.pivotaltracker.com/story/new"}#{labels.map {|l| " @#{l.tr(' _','_,')}"}.join}"
+          pending = pending? ? " @pending" : ""
+          "@#{url || "#{project.use_https? ? 'https' : 'http'}://www.pivotaltracker.com/story/new"}#{labels.map {|l| " @#{l.tr(' _','_,')}"}.join}#{pending}"
         else
           "# #{url}"
         end
