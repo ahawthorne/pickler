@@ -97,8 +97,9 @@ class Pickler
       def header(format = :tag)
         case format
         when :tag
-          pending = pending? ? " @pending" : ""
-          "@#{url || "#{project.use_https? ? 'https' : 'http'}://www.pivotaltracker.com/story/new"}#{labels.map {|l| " @#{l.tr(' _','_,')}"}.join}#{pending}"
+          labels_with_pending = labels 
+          labels_with_pending << "pending" if pending? && !labels.include?("pending")
+          "@#{url || "#{project.use_https? ? 'https' : 'http'}://www.pivotaltracker.com/story/new"}#{labels_with_pending.map {|l| " @#{l.tr(' _','_,')}"}.join}"
         else
           "# #{url}"
         end
